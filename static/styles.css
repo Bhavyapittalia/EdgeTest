@@ -1,0 +1,51 @@
+body{
+    background:white;
+}
+.custom-navbar {
+    /* background: linear-gradient(90deg, #0f2027, #203a43, #2c5364); */
+    background:black;
+}
+
+
+.navbar .nav-link {
+    color: #f8f9fa;
+    font-weight: 500;
+}
+
+
+.navbar .nav-link:hover {
+    color: #00ff99;
+}
+
+.log-out:hover{
+    color: red !important;
+}
+
+.card {
+    border: none;
+}
+
+.form-select, .form-control {
+    border-radius: 10px;
+}
+
+.form-select:focus,
+.form-control:focus {
+    border-color: none !important;
+    box-shadow: 0 0 0 0.1rem rgba(0, 0, 0, 0.4) !important;
+}
+
+
+.btn {
+    background-color: #212529 !important;
+    border-color: #212529 !important;
+    color: white !important;
+    padding: 6px 18px !important;
+    border-radius: 12px !important;
+    font-weight: 500;
+}
+
+.btn:hover {
+    background-color: #343a40 !important;
+    border-color: #343a40 !important;
+}

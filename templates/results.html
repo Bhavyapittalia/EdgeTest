@@ -1,0 +1,175 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  results
+{% endblock %}
+
+{% block main %}
+
+   <h2 class="text-center mb-4">Backtest Results</h2>
+
+<div class="d-flex justify-content-center mb-4">
+  <table class="table table-bordered w-auto text-center align-middle">
+    <tbody>
+
+      <tr>
+        <th class="px-4">Net Profit</th>
+        <td class="px-4">
+          {% if net_profit >= 0 %}
+            <span style="color: green;">
+              ₹{{ "{:,.2f}".format(net_profit) }}
+            </span>
+          {% else %}
+            <span style="color: red;">
+              ₹{{ "{:,.2f}".format(net_profit) }}
+            </span>
+          {% endif %}
+        </td>
+      </tr>
+
+      <tr>
+        <th>Return</th>
+        <td>
+          {% if return_percentage >= 0 %}
+            <span style="color: green;">
+              {{ "%.2f"|format(return_percentage) }}%
+            </span>
+          {% else %}
+            <span style="color: red;">
+              {{ "%.2f"|format(return_percentage) }}%
+            </span>
+          {% endif %}
+        </td>
+      </tr>
+
+      <tr>
+        <th>Win Rate</th>
+        <td>{{ "%.2f"|format(win_rate) }}%</td>
+      </tr>
+
+      <tr>
+        <th>Total Trades</th>
+        <td>{{ total_trades }}</td>
+      </tr>
+
+      <tr>
+        <th>Winning Trades</th>
+        <td>{{ winning_trades }}</td>
+      </tr>
+
+      <tr>
+        <th>Losing Trades</th>
+        <td>{{ lossing_trades }}</td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+
+    <h2> Equity Curve </h2>
+
+    <canvas id="equityChart"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+    const data = document.getElementById("equityChart").getContext('2d');
+
+    const equityChart = new Chart(data, {
+        type: 'line',
+        data: {
+            labels: {{ dates | tojson }},
+            datasets: [{
+                label: "Portfolio Value",
+                data: {{ equity_curve | tojson }},
+                borderWidth: 1,
+                pointRadius: 0,
+                tension: 0.4,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+             interaction: {
+        mode: 'index',
+        intersect: false
+        },
+            scales: {
+                x: {
+                    ticks: {
+                        maxTicksLimit: 10
+                    },
+                    title: {
+                        display: true,
+                        text: 'Months',
+                    font: {
+                        size: 16,
+                        weight: 'bold'
+                    },
+                  }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: "Capital (initital is 1,00,00)",
+                    font: {
+                        size: 16,
+                        weight: 'bold'
+                    },
+                  }
+                }
+            }
+        }
+    });
+
+});
+</script>
+{% endblock %}
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Backtest Results</title>
+</head>
+<body>
+
+    <h1>Backtest Results</h1>
+
+    <p><strong>Net Profit:</strong> {{ net_profit }}</p>
+    <p><strong>Return %:</strong> {{ return_percentage }}%</p>
+    <p><strong>Win Rate:</strong> {{ win_rate }}%</p>
+    <p><strong>Total Trades:</strong> {{ total_trades }}</p>
+    <p><strong>Winning Trades:</strong> {{ winning_trades }}</p>
+    <p><strong>Losing Trades:</strong> {{ lossing_trades }}</p>
+
+    <h2>Equity Curve</h2>
+
+    <canvas id="equityChart"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const ctx = document.getElementById('equityChart').getContext('2d');
+
+        const equityChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ dates | tojson }},
+                datasets: [{
+                    label: 'Portfolio Value',
+                    data: {{ equity_curve | tojson }},
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+    </script>
+
+</body>
+</html> -->

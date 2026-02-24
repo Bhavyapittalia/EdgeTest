@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Strategy Dashboard
+{% endblock %}
+
+{% block main %}
+
+<div class="row text-center mb-4">
+
+  <div class="d-flex justify-content-center mt-4">
+    <div class="card shadow-sm p-3">
+      <h6>Average EMA Return</h6>
+      {% if avg_return >= 0 %}
+        <h4 style="color: green;">
+          {{ "%.2f"|format(avg_return) }}%
+        </h4>
+      {% else %}
+        <h4 style="color: red;">
+          {{ "%.2f"|format(avg_return) }}%
+        </h4>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+
+<div class="container mt-4">
+
+  <h3 class="text-center mb-4"> Backtest History</h3>
+
+  <table class="table table-bordered text-center align-middle">
+
+    <thead style="background-color: #4CAF50; color: white;">
+      <tr>
+        <th>Date</th>
+        <th>Stock</th>
+        <th>Strategy</th>
+        <th>Net Profit (₹)</th>
+        <th>Return (%)</th>
+        <th>Total Trades</th>
+        <th>Win Rate (%)</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for row in result %}
+      <tr>
+        <td>{{ row.date_run }}</td>
+        <td>{{ row.stock_name }}</td>
+        <td>{{ row.strategy_name }}</td>
+
+
+        <td>
+          {% if row.net_profit >= 0 %}
+            <span style="color: green;">
+              {{ "{:,.2f}".format(row.net_profit) }}
+            </span>
+          {% else %}
+            <span style="color: red;">
+              {{ "{:,.2f}".format(row.net_profit) }}
+            </span>
+          {% endif %}
+        </td>
+
+        <td>{{ "%.2f"|format(row.return_percentage) }}</td>
+        <td>{{ row.total_trades }}</td>
+        <td>{{ "%.2f"|format(row.win_rate) }}</td>
+
+      </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+
+  <p>Note:- Here Profits/Loss are based on 1,00,000 Capital</p>
+
+</div>
+
+{% endblock %}
+
+
+
+

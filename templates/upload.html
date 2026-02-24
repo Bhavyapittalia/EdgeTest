@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Upload CSV file
+{% endblock %}
+
+{% block main %}
+   <form method="post" enctype="multipart/form-data">
+      <input type="text" placeholder="Stock Name" name="stock_name" class="form-control mx-auto w-auto" required>
+      <input type="file" name="csv_file" accept=".csv" class="form-control mx-auto w-auto mt-3" required>
+
+      <button type="submit" class="form-control mx-auto w-auto mt-3 btn btn-dark">Upload</button>
+   </form>
+{% endblock %}

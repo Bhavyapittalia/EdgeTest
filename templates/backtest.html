@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Upload CSV file
+{% endblock %}
+
+{% block main %}
+<div class="d-flex justify-content-center">
+  <form action="/backtest" method="post" enctype="multipart/form-data" style="width: 350px;">
+
+    <h5 class="mb-4 text-center fw-semibold">Backtest Strategy</h5>
+
+    <div class="mb-3">
+      <select name="stock_name" class="form-select" required>
+        <option value="" disabled selected>Select Stock</option>
+        {% for stocks in total_stocks %}
+          <option value="{{ stocks.stock_name }}">
+            {{ stocks.stock_name }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <select name="ema" class="form-select" required>
+        <option value="" disabled selected>Select EMA</option>
+        <option value="ema9_15">EMA 9 & 15 (Short-Term)</option>
+        <option value="ema9_50">EMA 9 & 50 (Long-Term)</option>
+      </select>
+    </div>
+
+
+    <div class="mb-3">
+      <select name="strategy" id="strategy" class="form-select" required>
+        <option value="" disabled selected>Select Strategy</option>
+        <option value="tp_only">Only Set Target</option>
+        <option value="tp_sl">Target & Stop Loss</option>
+      </select>
+    </div>
+
+    <div id="target" class="mb-3" style="display:none;">
+      <input type="number" placeholder="Target (%)"
+             name="target" class="form-control">
+    </div>
+
+    <div id="stop_loss" class="mb-3" style="display:none;">
+      <input type="number" placeholder="Stop Loss (%)"
+             name="stop_loss" class="form-control">
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-dark btn-sm px-4">
+        Run
+      </button>
+    </div>
+
+  </form>
+</div>
+
+    <script>
+    const strategy = document.getElementById("strategy");
+    const target = document.getElementById("target");
+    const sl = document.getElementById("stop_loss");
+
+    strategy.addEventListener("change", function() {
+        if (this.value === "tp_only") {
+            target.style.display = "block";
+            sl.style.display = "none";
+        }
+        if (this.value === "tp_sl") {
+            target.style.display = "block";
+            sl.style.display = "block";
+        }
+    });
+    </script>
+
+  </form>
+{% endblock %}
